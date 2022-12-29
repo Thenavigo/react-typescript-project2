@@ -29,12 +29,20 @@ export default function App(): JSX.Element {
 	}
 
 	const completeTodo = (index: number):void => {
-		const newTodos: ITodo[] = todos
+		const newTodos: ITodo[] = [...todos]
 		newTodos[index].complete = !newTodos[index].complete
 		setTodos(newTodos)
 	}
 
-	console.log(todos)
+	const removeTodo = (index: number):void => {
+		const newTodos: ITodo[] = [...todos]
+		newTodos.splice(index, 1) // [0, 1, 2, 3].splice(2,1)
+		setTodos(newTodos)
+	}
+
+	{/* arr = [0, 1, 2, 3]; arr.splice(2, 1); arr = [0, 1, 3] */}
+
+	{/*console.log(todos)*/}
 	return(
 		<Fragment>
 			{/*Hello!!!! {sum(19,19)}*/}
@@ -51,11 +59,15 @@ export default function App(): JSX.Element {
 			<section>
 				{todos.map((todo:ITodo, index:number) => (
 					<Fragment key={index}>
-						<div>{todo.text}</div>
-						<button type='button' onClick={() => completeTodo(index)}> 
+						<div style={{ textDecoration: todo.complete ? 'line-through' : ''}}
+						>
+							{todo.text}
+						</div>
+						<button type='button' onClick={():void => completeTodo(index)}> 
 							{' '}
 							{todo.complete ? 'Icomplete': 'complete'}{' '}
 						</button>
+						<button type='button' onClick={():void => removeTodo(index)}>&times;</button>
 					</Fragment>
 				))}
 			</section>
